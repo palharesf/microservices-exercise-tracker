@@ -32,13 +32,13 @@ let userId = 0;
 app.post('/api/users', (req, res) => {
   username = req.body.username;
   userId++;
-  users.set(userId, username);  
+  users.set(userId.toString(), username);  
   res.json({ username: username, _id: userId });
 });
 
 // Get a list of all users
 app.get('/api/users', (req, res) => {
-  const usersArray = Array.from(users, ([ id, username ]) => ({ username, _id: id }));
+  const usersArray = [...users.entries()].map(([id, username]) => ({ username, _id: id }));
   res.json(usersArray);
 })
 
