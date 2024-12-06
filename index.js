@@ -19,11 +19,30 @@ const listener = app.listen(process.env.PORT || 3000, () => {
 
 // Everything above is boilerplate; implementation starts below
 
-// Add a new user
-app.post('/api/users', (req, res) => {});
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
+app.use(bodyParser.json()); // parse application/json
+
+// Define data structures: a Map with userId/username key-value pair, and an Object with Objects inside, each containing userId, description, duration, and date inside
+const users = new Map();
+const exercises = {};
+let userId = 0;
+
+// Add a new user; no functionality to check for repeated usernames yet
+app.post('/api/users', (req, res) => {
+  username = req.body.username;
+  userId++;
+  users.set(userId, username);  
+  console.log(users);
+  res.json({ _id: userId, username: username });
+});
 
 // Add a new exercise
-app.post('/api/users/:_id/exercises', (req, res) => {});
+app.post('/api/users/:_id/exercises', (req, res) => {
+
+});
 
 // Retrieve exercise log
-app.get('/api/users/:_id/logs?[from][&to][&limit]', (req, res) => {});
+app.get('/api/users/:_id/logs?[from][&to][&limit]', (req, res) => {
+
+});
