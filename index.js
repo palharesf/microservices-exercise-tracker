@@ -16,3 +16,14 @@ app.get('/', (req, res) => {
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
+
+// Everything above is boilerplate; implementation starts below
+
+// Add a new user
+app.post('/api/users', (req, res) => {});
+
+// Add a new exercise
+app.post('/api/users/:_id/exercises', (req, res) => {});
+
+// Retrieve exercise log
+app.get('/api/users/:_id/logs?[from][&to][&limit]', (req, res) => {});
