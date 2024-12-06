@@ -33,9 +33,14 @@ app.post('/api/users', (req, res) => {
   username = req.body.username;
   userId++;
   users.set(userId, username);  
-  console.log(users);
-  res.json({ _id: userId, username: username });
+  res.json({ username: username, _id: userId });
 });
+
+// Get a list of all users
+app.get('/api/users', (req, res) => {
+  const usersArray = Array.from(users, ([ id, username ]) => ({ username, _id: id }));
+  res.json(usersArray);
+})
 
 // Add a new exercise
 app.post('/api/users/:_id/exercises', (req, res) => {
