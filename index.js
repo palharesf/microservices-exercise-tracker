@@ -30,7 +30,7 @@ let userId = 0;
 
 // Add a new user; no functionality to check for repeated usernames yet
 app.post('/api/users', (req, res) => {
-  username = req.body.username;
+  const username = req.body.username;
   userId++;
   users.set(userId.toString(), username);  
   res.json({ username: username, _id: userId });
@@ -44,7 +44,24 @@ app.get('/api/users', (req, res) => {
 
 // Add a new exercise
 app.post('/api/users/:_id/exercises', (req, res) => {
+  let date;
+  if(req.body.date) {
+    date = new Date(req.body.date);
+  } else {
+    date = new Date();
+  }
 
+  dateStr = date.toUTCString();
+  let parts = dateStr.split(' ');
+  let rearrangedDate = `${parts[0].replace(',', '')} ${parts[2]} ${parts[1]} ${parts[3]}`;
+
+  res.json({
+    _id: req.params._id,
+    username: users.get(req.params._id),
+    date: rearrangedDate,
+    duration: parseInt(req.body.duration),
+    description: req.body.description
+  });
 });
 
 // Retrieve exercise log
