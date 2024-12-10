@@ -26,13 +26,15 @@ app.use(bodyParser.json()); // parse application/json
 // Define data structures: a Map with userId/username key-value pair, and an Object with Objects inside, each containing userId, description, duration, and date inside
 const users = new Map();
 const exercises = {};
-let userId = 0;
+let idIndex = 0;
+let userId = "";
 
 // Add a new user; no functionality to check for repeated usernames yet
 app.post('/api/users', (req, res) => {
   const username = req.body.username;
-  userId++;
-  users.set(userId.toString(), username);  
+  idIndex++;
+  userId = idIndex.toString();
+  users.set(userId, username);  
   res.json({ username: username, _id: userId });
 });
 
@@ -56,7 +58,7 @@ app.post('/api/users/:_id/exercises', (req, res) => {
   let rearrangedDate = `${parts[0].replace(',', '')} ${parts[2]} ${parts[1]} ${parts[3]}`;
 
   res.json({
-    _id: req.params._id,
+    _id: req.params._id.toString(),
     username: users.get(req.params._id),
     date: rearrangedDate,
     duration: parseInt(req.body.duration),
