@@ -98,6 +98,7 @@ app.get('/api/users/:_id/logs', (req, res) => {
 
   _id = req.params._id;
   let log = exercises.get(_id) || [];
+  let count = log.length;
 
   if (from) {
     log = log.filter(exercise => new Date(exercise.date) > new Date(from));
@@ -108,8 +109,6 @@ app.get('/api/users/:_id/logs', (req, res) => {
   if (limit) {
     log = log.slice(0, limit);
   }
-
-  let count = log.length;
 
   res.json({
     _id,
