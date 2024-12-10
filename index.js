@@ -97,13 +97,13 @@ app.get('/api/users/:_id/logs', (req, res) => {
   let limit = req.query.limit;
 
   _id = req.params._id;
-  console.log("_id:", _id);
   let log = exercises.get(_id) || [];
   console.log("Log:", log);
+  let count = log.length;
 
   res.json({
     _id,
-    count: 12345,
+    count,
     log: log,
    });
 });
