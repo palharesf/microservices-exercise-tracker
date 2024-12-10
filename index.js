@@ -92,13 +92,23 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 // Retrieve exercise log
 app.get('/api/users/:_id/logs', (req, res) => {
 
-  let from = req.query.from;
-  let to = req.query.to;
+  let from = req.query.from ? new Date(req.query.from).toUTCString() : null;
+  let to = req.query.to ? new Date(req.query.to).toUTCString() : null;
   let limit = req.query.limit;
 
   _id = req.params._id;
   let log = exercises.get(_id) || [];
-  console.log("Log:", log);
+
+  if (from) {
+    log = log.filter(exercise => new Date(exercise.date) > new Date(from));
+  }
+  if (to) {
+    log = log.filter(exercise => new Date(exercise.date) < new Date(to));
+  }
+  if (limit) {
+    log = log.slice(0, limit);
+  }
+
   let count = log.length;
 
   res.json({
